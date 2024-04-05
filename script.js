@@ -17,8 +17,32 @@ const beforeAfterSlider = (x) => {
    change.style.left = `${shift}px`;
 };
 
-beforeAfterSlider.addEventListener('mousemove', (e) => {
+const pauseEvents = (e) => {
+  e.stopPropagation();
+  e.preventDefault();
+  return false;
+};
+
+body.addEventListener('mousedown', () => {
+  isActive = true;
+});
+
+body.addEventListener('mouseup', () => {
+  isActive = false;
+});
+
+body.addEventListener('mouseleave', () => {
+  isActive = false;
+});
+
+body.addEventListener('mousemove', (e) => {
   if (!isActive) {
     return;
   }
+
+  let x = e.pageX;
+
+  x -= slider.getBoundingClientRect().left
+  beforeAfterSlider(x);
+  pauseEvents(e);
 });
